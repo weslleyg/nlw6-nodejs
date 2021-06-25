@@ -2,14 +2,14 @@ import { getCustomRepository, Repository } from 'typeorm';
 import { Tag } from '../entities/Tag';
 import { TagsRepository } from '../repositories/TagsRepository';
 
-class CreateTagService {
+class TagService {
   private tagsRepository: Repository<Tag>
   
   constructor() {
     this.tagsRepository = getCustomRepository(TagsRepository)
   }
 
-  async execute(name: string) {
+  async create(name: string) {
     if(!name)
       throw new Error("Name is required!");
     
@@ -28,6 +28,13 @@ class CreateTagService {
 
     return tag;
   }
+
+  async listTags() {
+    const tags = await this.tagsRepository.find();
+
+    return tags;
+  }
+
 }
 
-export { CreateTagService };
+export { TagService };
