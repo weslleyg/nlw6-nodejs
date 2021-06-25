@@ -2,18 +2,19 @@ import { Router } from "express";
 import { AuthenticateUserController } from "./controllers/AuthenticateUserController";
 import { ComplimentController } from "./controllers/ComplimentController";
 import { TagController } from "./controllers/TagController";
-import { CreateUserController } from "./controllers/CreateUserController";
+import { UserController } from "./controllers/UserController";
 import { ensureAdmin } from "./middlewares/ensureAdmin";
 import { ensureAuthenticated } from "./middlewares/ensureAuthenticated";
 
 const router = Router();
 
-const createUserController = new CreateUserController();
+const userController = new UserController();
 const tagController = new TagController();
 const authenticateUserController = new AuthenticateUserController();
 const complimentController = new ComplimentController();
 
-router.post("/users", createUserController.handle);
+router.post("/users", userController.handle);
+router.get("/users", ensureAuthenticated, userController.listUsers);
 
 router.post("/tags", ensureAuthenticated, ensureAdmin, tagController.handle);
 router.get("/tags", ensureAuthenticated, tagController.listTags);

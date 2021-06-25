@@ -1,3 +1,4 @@
+import { classToPlain } from 'class-transformer';
 import { hash } from 'bcryptjs';
 import { getCustomRepository, Repository } from 'typeorm';
 import { User } from '../entities/User';
@@ -10,7 +11,7 @@ interface IUserRequest {
   password: string;
 }
 
-class CreateUserService {
+class UserService {
 
   private usersRepository: Repository<User>;
 
@@ -18,7 +19,7 @@ class CreateUserService {
     this.usersRepository = getCustomRepository(UsersRepository);
   }
 
-  async execute({ name, email, admin = false, password }: IUserRequest ) {
+  async create({ name, email, admin = false, password }: IUserRequest ) {
     
     if(!email)
       throw new Error("Email incorrect.");
@@ -43,6 +44,14 @@ class CreateUserService {
 
       return user;
   }
+
+  async listUsers() {
+
+    const users = await this.usersRepository.find();
+
+    return classToPlain(users);
+
+  }
 }
 
-export { CreateUserService };
+export { UserService };
