@@ -6,7 +6,7 @@ import { UsersRepository } from '../repositories/UsersRepository';
 interface IUserRequest {
   name: string;
   email: string;
-  admin?: boolean;
+  admin: boolean;
   password: string;
 }
 
