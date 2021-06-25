@@ -1,6 +1,7 @@
 import { getCustomRepository, Repository } from 'typeorm';
 import { Tag } from '../entities/Tag';
 import { TagsRepository } from '../repositories/TagsRepository';
+import { classToPlain } from "class-transformer";
 
 class TagService {
   private tagsRepository: Repository<Tag>
@@ -32,7 +33,7 @@ class TagService {
   async listTags() {
     const tags = await this.tagsRepository.find();
 
-    return tags;
+    return classToPlain(tags);
   }
 
 }
